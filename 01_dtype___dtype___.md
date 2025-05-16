@@ -1,3 +1,8 @@
+---
+title: DType
+layout: page
+---
+
 # Chapter 1: DType (`DType`)
 
 Welcome to the Vortex project documentation. This first chapter introduces a foundational concept in Vortex: the `DType`. The `DType` is central to how Vortex represents and understands data, forming the bedrock upon which arrays and operations are built.

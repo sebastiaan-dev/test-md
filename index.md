@@ -3,33 +3,84 @@ title: Home
 layout: home
 ---
 
-This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme. You can easily set the created site to be published on [GitHub Pages] – the [README] file explains how to do that, along with other details.
+# Tutorial: vortex
 
-If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^1] And you will be able to deploy your local build to a different platform than GitHub Pages.
+Vortex is a project for **efficient columnar data representation and processing**.
+It uses *Arrays* as the primary in-memory data structure, which can have various physical *Encodings* (like compression or dictionary-encoding) while maintaining a consistent logical *DType*.
+Vortex supports *Compute Kernels* that can operate directly on encoded data, potentially avoiding full decompression.
+It provides a *VortexFile* format for on-disk storage, leveraging *Layouts* and *Statistics* for optimization and efficient data access.
+The system aims for zero-copy interoperability with Apache Arrow through *Canonical Encodings*.
 
-More specifically, the created site:
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+**Source Repository:** [None](None)
 
-Other than that, you're free to customize sites that you create with this template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+```mermaid
+flowchart TD
+    A0["Array (`ArrayRef`, `dyn Array`)
+"]
+    A1["Encoding (`EncodingRef`, `VTable` trait and macro)
+"]
+    A2["DType (`DType`)
+"]
+    A3["Scalar (`Scalar`)
+"]
+    A4["Buffer (`Buffer`, `ByteBuffer`)
+"]
+    A5["Canonical Encodings (`Canonical`)
+"]
+    A6["Layout (`Layout`, `LayoutReader`, `LayoutWriter`, `LayoutStrategy`)
+"]
+    A7["Compute Kernels (`ComputeFn`, `Kernel` trait, various specific kernel traits)
+"]
+    A8["VortexFile (`VortexFile`, `Footer`, `SegmentSpec`)
+"]
+    A9["Statistics (`Stat`, `StatsSet`)
+"]
+    A0 -- "Uses raw data from" --> A4
+    A0 -- "Is defined by" --> A1
+    A0 -- "Has logical type" --> A2
+    A0 -- "Yields elements as" --> A3
+    A0 -- "Converts to" --> A5
+    A0 -- "Maintains" --> A9
+    A1 -- "Converts to/from" --> A5
+    A1 -- "Implements" --> A7
+    A3 -- "Represents values in" --> A9
+    A3 -- "Is typed by" --> A2
+    A6 -- "Serializes" --> A0
+    A6 -- "References data in" --> A4
+    A6 -- "Is structured by" --> A2
+    A6 -- "Uses for pruning" --> A9
+    A7 -- "Operate on" --> A0
+    A7 -- "Uses literal" --> A3
+    A7 -- "Processes standard" --> A5
+    A8 -- "Contains data" --> A6
+    A8 -- "Stores aggregate" --> A9
+```
 
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
+## Chapters
 
-To get started with creating a site, simply:
+1. [DType (`DType`)
+](01_dtype___dtype___.md)
+2. [Scalar (`Scalar`)
+](02_scalar___scalar___.md)
+3. [Array (`ArrayRef`, `dyn Array`)
+](03_array___arrayref____dyn_array___.md)
+4. [Encoding (`EncodingRef`, `VTable` trait and macro)
+](04_encoding___encodingref____vtable__trait_and_macro__.md)
+5. [Compute Kernels (`ComputeFn`, `Kernel` trait, various specific kernel traits)
+](05_compute_kernels___computefn____kernel__trait__various_specific_kernel_traits__.md)
+6. [Canonical Encodings (`Canonical`)
+](06_canonical_encodings___canonical___.md)
+7. [Statistics (`Stat`, `StatsSet`)
+](07_statistics___stat____statsset___.md)
+8. [Buffer (`Buffer`, `ByteBuffer`)
+](08_buffer___buffer____bytebuffer___.md)
+9. [Layout (`Layout`, `LayoutReader`, `LayoutWriter`, `LayoutStrategy`)
+](09_layout___layout____layoutreader____layoutwriter____layoutstrategy___.md)
+10. [VortexFile (`VortexFile`, `Footer`, `SegmentSpec`)
+](10_vortexfile___vortexfile____footer____segmentspec___.md)
 
-1. click "[use this template]" to create a GitHub repository
-2. go to Settings > Pages > Build and deployment > Source, and select GitHub Actions
 
-If you want to maintain your docs in the `docs` directory of an existing project repo, see [Hosting your docs from an existing project repo](https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md#hosting-your-docs-from-an-existing-project-repo) in the template README.
+---
 
-----
-
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
-
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
-[Jekyll]: https://jekyllrb.com
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
+Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)
